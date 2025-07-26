@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Products - Mehendi by Mahima</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f4dddd;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-top: 65px;
+    }
+
+    .products {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .product-card {
+      background: #fff;
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      width: 250px;
+      text-align: center;
+      transition: transform 0.2s;
+    }
+
+    .product-card:hover {
+      transform: scale(1.03);
+    }
+
+    .product-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .product-card h3 {
+      margin: 10px 0 5px;
+      font-size: 1.2rem;
+    }
+
+    .product-card p {
+      margin: 0 0 10px;
+      color: #444;
+    }
+
+    .product-card button {
+      background: #7b2d26;
+      color: #fff;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .product-card button:hover {
+      background: #5a1f1a;
+    }
+
+    .cart-link {
+      text-decoration: none;
+      color: #000;
+      display: inline-block;
+      margin-top : 30px;
+      float: right;
+      font-weight: bold;
+      position: relative;
+    }
+
+    .cart-count {
+      background: red;
+      color: white;
+      font-size: 0.8rem;
+      padding: 3px 7px;
+      border-radius: 50%;
+      position: absolute;
+      top: -10px;
+      right: -10px;
+    }
+
+    .qty-selector {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .qty-btn {
+      padding: 5px 10px;
+      background: #7b2d26;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      margin: 0 5px;
+      cursor: pointer;
+    }
+
+    .qty-number {
+      font-size: 1.2rem;
+      width: 20px;
+      text-align: center;
+    }
+
+    @media(max-width:600px) {
+      .product-card {
+        width: 90%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <a href="index.html"
+    style="position: fixed; margin-top: 20px; left: 20px; background: #7b2d26; color: white; padding: 10px 15px; border-radius: 5px; text-decoration: none; z-index: 999;">
+    ← Back to Home
+  </a>
+
+
+  <a href="cart.html" class="cart-link"><i class="fas fa-shopping-cart"></i> View Cart <span id="cartCount"
+      class="cart-count">0</span></a>
+
+  <h1>Mehendi Products</h1>
+
+  <div class="products" id="productList">
+    <!-- Products will load here -->
+  </div>
+
+  <script>
+    const quantities = {};
+
+    function loadProducts() {
+      fetch('/api/products')
+        .then(res => res.json())
+        .then(products => {
+          const container = document.getElementById('productList');
+          container.innerHTML = '';
+
+          products.forEach(p => {
+            const img = p.imageFile ? p.imageFile : p.imageUrl || 'https://via.placeholder.com/250x200?text=No+Image';
+
+            quantities[p._id] = 1; // default quantity
+
+            container.innerHTML += `
+          <div class="product-card">
+            <img src="${img}" alt="${p.name}">
+            <h3>${p.name}</h3>
+            <p>₹${p.price}</p>
+            <p>${p.category}</p>
+
+            <div class="qty-selector">
+              <button class="qty-btn" onclick="changeQty('${p._id}', -1)">-</button>
+              <span id="qty-${p._id}" class="qty-number">1</span>
+              <button class="qty-btn" onclick="changeQty('${p._id}', 1)">+</button>
+            </div>
+
+            <button onclick="addToCart('${p._id}', '${p.name}', ${p.price})">Add to Cart</button>
+          </div>
+        `;
+          });
+        });
+    }
+
+    function changeQty(id, delta) {
+      quantities[id] += delta;
+      if (quantities[id] < 1) quantities[id] = 1;
+      document.getElementById('qty-' + id).innerText = quantities[id];
+    }
+
+    function addToCart(id, name, price) {
+      const qty = quantities[id];
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+      const existing = cart.find(item => item.productId === id);
+
+      if (existing) {
+        existing.quantity += qty;
+      } else {
+        cart.push({ productId: id, name, price, quantity: qty });
+      }
+
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCartCount();
+      alert(`${name} added to cart (x${qty})`);
+    }
+
+    function updateCartCount() {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+      document.getElementById('cartCount').innerText = count;
+    }
+
+    loadProducts();
+    updateCartCount();
+  </script>
+
+</body>
+
+</html>

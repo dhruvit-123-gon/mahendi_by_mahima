@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Sign In & Sign Up - Mehendi by Mahima</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f9ecec;
+      color: #333;
+    }
+
+    h2,
+    h3 {
+      margin: 0;
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+      padding: 50px 20px;
+      text-align: center;
+    }
+
+    .card {
+      background: #fff8f0;
+      padding: 30px;
+      border-radius: 12px;
+      width: 300px;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    input {
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button {
+      width: 100%;
+      background: #7b2d26;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 10px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background: #5a1f1a;
+    }
+
+    .back-home,
+    .forgot-link {
+      background: #7b2d26;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      text-decoration: none;
+      margin-top: 30px;
+      display: inline-block;
+    }
+
+    .forgot-link {
+      background: none;
+      color: #7b2d26;
+      text-decoration: underline;
+      font-size: 0.9rem;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h2 style="font-size: rem; margin-top: 30px; color: #7b2d26;">
+    <i class="fas fa-lock"></i> Welcome to Mehendi by Mahima
+  </h2>
+
+  <div class="container">
+
+    <!-- Sign In -->
+    <div class="card">
+      <h3 style="margin-bottom: 20px; color: #7b2d26;"><i class="fas fa-sign-in-alt"></i> Sign In</h3>
+      <input id="loginEmail" type="email" placeholder="📧 Email">
+      <input id="loginPassword" type="password" placeholder="🔒 Password">
+      <button onclick="loginCustomer()">Login</button>
+      <div style="text-align: right; margin: 5px 0;">
+        <a href="Cus-forgot-password.html" style="color: #7b2d26; text-decoration: none; font-size: 0.9rem;">Forgot
+          Password?</a>
+      </div>
+    </div>
+
+    <!-- Sign Up -->
+    <div class="card">
+      <h3 style="margin-bottom: 20px; color: #7b2d26;"><i class="fas fa-user-plus"></i> Sign Up</h3>
+      <input id="signupName" type="text" placeholder="👤 Full Name">
+      <input id="signupEmail" type="email" placeholder="📧 Email">
+      <input id="signupPassword" type="password" placeholder="🔒 Password">
+      <button onclick="signupCustomer()">Register</button>
+    </div>
+
+  </div>
+
+  <!-- Back to Home -->
+  <div style="text-align:center; margin-bottom:40px;">
+    <a href="index.html" class="back-home">🔙 Back to Home</a>
+  </div>
+
+  <script>
+    // Sign Up
+    function signupCustomer() {
+      const name = document.getElementById('signupName').value;
+      const email = document.getElementById('signupEmail').value;
+      const password = document.getElementById('signupPassword').value;
+
+      if (!name || !email || !password) {
+        alert('Please fill all fields!');
+        return;
+      }
+
+      fetch('/api/customer/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, password })
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            alert('Signup successful! Please login.');
+            window.location.href = 'signin.html';
+          } else {
+            alert(data.message);
+          }
+        });
+    }
+
+    // Login
+    function loginCustomer() {
+      const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
+
+      if (!email || !password) {
+        alert('Please enter email and password!');
+        return;
+      }
+
+      fetch('/api/customer/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            localStorage.setItem('customerId', data.customer.id);
+            localStorage.setItem('customerName', data.customer.name);
+            localStorage.setItem('customerEmail', data.customer.email);
+            alert('Welcome, ' + data.customer.name);
+            window.location.href = 'profile.html'; // Redirect to profile
+          } else {
+            alert(data.message);
+          }
+        });
+    }
+
+    // Forgot Password
+    function forgotPassword() {
+      const email = prompt("Enter your registered email:");
+      if (!email) return;
+
+      fetch('/api/customer/forgot-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+      })
+        .then(res => res.json())
+        .then(data => {
+          alert(data.message);
+        });
+    }
+  </script>
+
+
+</body>
+
+</html>

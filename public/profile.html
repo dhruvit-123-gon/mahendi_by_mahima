@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>My Profile - Mehendi by Mahima</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f9ecec;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 30px auto;
+            background: #fff8f0;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+        }
+
+        .avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #7b2d26;
+            margin-top: 50px;
+            cursor: pointer;
+        }
+
+        h2 {
+            color: #7b2d26;
+            margin-bottom: 5px;
+        }
+
+        p {
+            color: #555;
+            margin-top: 0;
+        }
+
+        input,
+        select {
+            width: 90%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+
+        .btn {
+            background: #7b2d26;
+            color: white;
+            padding: 10px 20px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #5a1f1a;
+        }
+
+        .menu {
+            text-align: left;
+            margin-top: 20px;
+        }
+
+        .menu-item {
+            padding: 12px 0;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            cursor: pointer;
+        }
+
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .order-history {
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .order-item {
+            background: #fff;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .icon {
+            color: #7b2d26;
+        }
+
+        .logout-box {
+            margin: 40px auto 20px;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: red;
+            border: 3px solid red;
+            width: 200px;
+            padding: 10px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .logout-box:hover {
+            background-color: red;
+            color: white;
+        }
+
+        .order-item {
+            padding: 10px;
+            margin-bottom: 15px;
+            background: #fff8f5;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            font-size: 0.95rem;
+        }
+
+        .status-label {
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .status-label.pending {
+            background: #f39c12;
+        }
+
+        /* Orange */
+        .status-label.confirmed {
+            background: #3498db;
+        }
+
+        /* Blue */
+        .status-label.shipped {
+            background: #9b59b6;
+        }
+
+        /* Purple */
+        .status-label.delivered {
+            background: #2ecc71;
+        }
+
+        /* Green */
+
+        .status-label.cancelled {
+            background: #e74c3c;
+        }
+
+        /* Red */
+
+        .track-btn {
+            background-color: #7b2d26;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            margin-top: 8px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .track-btn:hover {
+            background-color: #5d201b;
+        }
+
+        .invoice-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            margin-top: 8px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .invoice-btn:hover {
+            background-color: #388e3c;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 15% auto;
+            padding: 30px;
+            border-radius: 10px;
+            width: 300px;
+            text-align: center;
+            position: relative;
+        }
+
+        .modal-content h2 {
+            color: #7b2d26;
+            margin-bottom: 20px;
+        }
+
+        .login-option {
+            width: 100%;
+            margin: 10px 0;
+            padding: 12px;
+            font-size: 16px;
+            background: #7b2d26;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .login-option:hover {
+            background: #5d201b;
+        }
+
+        .close-btn {
+            position: absolute;
+            right: 15px;
+            top: 10px;
+            font-size: 24px;
+            color: #555;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <label for="uploadPic">
+            <img id="profilePic" src="https://via.placeholder.com/100x100.png?text=User" class="avatar"
+                alt="User Photo">
+        </label>
+        <input type="file" id="uploadPic" style="display:none" accept="image/*" onchange="uploadProfilePic(event)" />
+
+
+        <h2 id="userName">Your Name</h2>
+        <p id="userEmail">your@email.com</p>
+
+        <!-- LOGIN BUTTON (TOP RIGHT) -->
+        <a id="loginIcon" onclick="openLoginModal()"
+            style="position: absolute; top: 40px; right: 20px; cursor: pointer; z-index: 999;">
+            <img src="images/login.png" alt="Login" style="width: 90px; height: 90px; border-radius: 50%;">
+        </a>
+
+        <!-- LOGIN CHOICE MODAL -->
+        <div id="loginChoiceModal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeLoginModal()">&times;</span>
+                <h2>Select Login Type</h2>
+                <button onclick="location.href='signin.html'" class="login-option">👤 Customer Login</button>
+                <button onclick="location.href='admin.html'" class="login-option">🛠️ Admin Login</button>
+            </div>
+        </div>
+
+
+
+
+        <h3>Edit Profile</h3>
+
+
+        <input type="text" id="name" placeholder="Full Name" />
+        <input type="email" id="email" placeholder="Email" />
+        <input type="tel" id="phone" placeholder="Phone Number" />
+
+
+        <select id="gender">
+            <option value="">Select Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+        </select>
+
+        <input type="date" id="dob" placeholder="Date of Birth" />
+
+        <button class="btn" onclick="saveProfile()">Save Changes</button>
+
+        <!-- Change Password Button -->
+        <button onclick="toggleChangePassword()"
+            style="background: #7b2d26; color: white; padding: 10px; border: none; border-radius: 5px; cursor: pointer;">
+            🔒 Change Password
+        </button>
+
+        <!-- Collapsible Change Password Section -->
+        <div id="changePasswordSection"
+            style="display: none; margin-top: 20px; background: #fff3f3; padding: 20px; border-radius: 8px; max-width: 400px;">
+            <h3 style="margin-bottom: 15px;">Update Your Password</h3>
+
+            <input type="password" id="oldPassword" placeholder="Current Password"
+                style="width: 100%; margin: 8px 0; padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+
+            <input type="password" id="newPassword" placeholder="New Password"
+                style="width: 100%; margin: 8px 0; padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+
+            <input type="password" id="confirmPassword" placeholder="Confirm New Password"
+                style="width: 100%; margin: 8px 0; padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+
+            <button onclick="changePassword()"
+                style="margin-top: 10px; width: 100%; background: #7b2d26; color: white; padding: 10px; border: none; border-radius: 5px;">
+                ✅ Submit Password Change
+            </button>
+        </div>
+
+
+        <div class="menu">
+            <!-- <div class="menu-item"><span>❤️ Favourites</span> <span class="icon">></span></div> -->
+
+        </div>
+
+        <h3>🛒 Order History</h3>
+        <div id="orderHistory">Loading orders...</div>
+
+
+        <div class="logout-box" onclick="confirmLogout()">
+            LOGOUT
+        </div>
+
+    </div>
+
+    <script>
+        // Load Profile
+        const customerId = localStorage.getItem('customerId');
+
+        document.getElementById('name').value = localStorage.getItem('customerName') || '';
+        document.getElementById('email').value = localStorage.getItem('customerEmail') || '';
+        document.getElementById('phone').value = localStorage.getItem('customerPhone') || '';
+        document.getElementById('gender').value = localStorage.getItem('customerGender') || '';
+        document.getElementById('dob').value = localStorage.getItem('customerDOB') || '';
+        document.getElementById('userName').innerText = localStorage.getItem('customerName') || 'Your Name';
+        document.getElementById('userEmail').innerText = localStorage.getItem('customerEmail') || 'your@email.com';
+
+        // Load profile picture
+        if (localStorage.getItem('profilePic')) {
+            document.getElementById('profilePic').src = localStorage.getItem('profilePic');
+        }
+
+        // Save Profile
+        function saveProfile() {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const gender = document.getElementById('gender').value;
+            const dob = document.getElementById('dob').value;
+
+            localStorage.setItem('customerName', name);
+            localStorage.setItem('customerEmail', email);
+            localStorage.setItem('customerPhone', phone);
+            localStorage.setItem('customerGender', gender);
+            localStorage.setItem('customerDOB', dob);
+
+            document.getElementById('userName').innerText = name;
+            document.getElementById('userEmail').innerText = email;
+
+            // Optional server update
+            if (customerId) {
+                fetch('/api/customer/update', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ customerId, name, email, phone, gender, dob })
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        alert(data.message || 'Profile updated successfully');
+                    })
+                    .catch(() => {
+                        alert('Server update failed, saved locally.');
+                    });
+            } else {
+                alert('Profile saved locally');
+            }
+        }
+
+        // Upload Profile Pic (base64 local only)
+        function uploadProfilePic(event) {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const imageData = e.target.result;
+                document.getElementById('profilePic').src = imageData;
+                localStorage.setItem('profilePic', imageData);
+            }
+            reader.readAsDataURL(file);
+        }
+
+        // Change Password
+        // Toggle password section
+        function toggleChangePassword() {
+            const section = document.getElementById('changePasswordSection');
+            section.style.display = section.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // Password change logic
+        function changePassword() {
+            const customerId = localStorage.getItem('customerId');
+            const oldPassword = document.getElementById('oldPassword').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            if (!oldPassword || !newPassword || !confirmPassword) {
+                alert("Please fill in all fields");
+                return;
+            }
+
+            if (newPassword !== confirmPassword) {
+                alert("New passwords do not match");
+                return;
+            }
+
+            fetch('/api/customer/change-password', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ customerId, oldPassword, newPassword })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    alert(data.message);
+                    if (data.success) {
+                        document.getElementById('changePasswordSection').style.display = 'none';
+                        document.getElementById('oldPassword').value = '';
+                        document.getElementById('newPassword').value = '';
+                        document.getElementById('confirmPassword').value = '';
+                    }
+                })
+                .catch(err => {
+                    alert("Error updating password");
+                    console.error(err);
+                });
+        }
+
+
+        // Logout
+        function confirmLogout() {
+            if (confirm("Are you sure you want to logout?")) {
+                localStorage.removeItem('customerId');
+                localStorage.removeItem('customerName');
+
+            }
+        }
+
+        // Load Order History
+
+
+
+        function loadOrders() {
+            if (!customerId) {
+                document.getElementById('orderHistory').innerHTML = 'Please login to view your orders.';
+                return;
+            }
+
+            fetch('/api/customer/orders/' + customerId)
+                .then(res => res.json())
+                .then(data => {
+                    const orderDiv = document.getElementById('orderHistory');
+                    if (data.length === 0) {
+                        orderDiv.innerHTML = 'No orders found.';
+                        return;
+                    }
+                    orderDiv.innerHTML = '';
+                    data.forEach(order => {
+                        const items = order.items.map(i => `${i.productId.name} x${i.quantity}`).join(", ");
+                        orderDiv.innerHTML += `
+                        <div class="order-item">
+                            <b>Order ID:</b> ${order._id}<br>
+                            <b>Items:</b> ${items}<br>
+                            <b>Total:</b> ₹${order.totalAmount}<br>
+                            <b>Status:</b> <span class="status-label ${order.status.toLowerCase()}">${order.status}</span>
+                            
+                            // <!-- 🆕 Track Order Button -->
+                            <button onclick="openTracking('${order._id}')" class="track-btn">📦 Track Order</button>
+                            <button onclick="downloadInvoice('${order._id}')" class="invoice-btn">🧾 Download Invoice</button>
+
+                        </div>
+                        <hr>
+                    `;
+                    });
+                })
+                .catch(err => {
+                    document.getElementById('orderHistory').innerHTML = 'Error loading orders.';
+                });
+        }
+
+        loadOrders();
+    </script>
+
+    <!-- For upload profile photo -->
+    <script>
+        function uploadProfilePic(event) {
+            const file = event.target.files[0];
+            const formData = new FormData();
+            formData.append('profilePic', file);
+
+            fetch('/api/customer/upload-profile/' + customerId, {
+                method: 'POST',
+                body: formData
+            })
+                .then(res => res.json())
+                .then(data => {
+                    document.getElementById('profilePic').src = data.imageUrl;
+                    localStorage.setItem('profilePic', data.imageUrl);
+                    alert('Profile photo updated!');
+                })
+                .catch(() => alert('Upload failed!'));
+        }
+
+
+
+
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const customerId = localStorage.getItem('customerId');
+            const loginIcon = document.getElementById('loginIcon');
+
+            if (!customerId) {
+                loginIcon.style.display = 'block'; // show login button
+            }
+        });
+    </script>
+
+    <script>
+        function openTracking(orderId) {
+            // Redirect to a tracking page or show a modal
+            alert("Tracking for Order ID: " + orderId);
+            // OR: window.location.href = `/track.html?orderId=${orderId}`;
+        }
+    </script>
+
+    <script>
+        function downloadInvoice(orderId) {
+            window.open(`/api/invoice/${orderId}`, '_blank');
+        }
+    </script>
+    <script>
+        function openTracking(orderId) {
+            window.location.href = `/order-track.html?id=${orderId}`;
+        }
+
+    </script>
+
+    <script>
+        function openLoginModal() {
+            document.getElementById('loginChoiceModal').style.display = 'block';
+        }
+
+        function closeLoginModal() {
+            document.getElementById('loginChoiceModal').style.display = 'none';
+        }
+
+    </script>
+
+
+
+
+</body>
+
+</html>

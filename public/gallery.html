@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gallery - Mehendi by Mahima</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <style>
+    body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #fff8e1; /* Light pastel yellow background */
+  color: #000000;
+  margin: 0;
+  padding: 20px;
+}
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .filter-bar {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    select {
+      margin: 0 10px;
+      padding: 8px 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+
+    .gallery {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  background-color: #fff3cd; /* Light gallery section background */
+  padding: 20px;
+  border-radius: 12px;
+}
+
+    .photo {
+      width: 250px;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s;
+    }
+
+    .photo img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    a {
+      text-decoration: none;
+      color: #000;
+      display: inline-block;
+      margin-bottom: 20px;
+    }
+
+    .photo:hover {
+      transform: scale(1.03);
+    }
+
+    <!-- Filter Section -->
+<div class="filter-section">
+  <label>Occasion:
+    <select id="occasionFilter">
+      <option value="">All</option>
+      <option value="wedding">Wedding</option>
+      <option value="festival">Festival</option>
+      <option value="party">Party</option>
+    </select>
+  </label>
+
+  <label>Hand Type:
+    <select id="handFilter">
+      <option value="">All</option>
+      <option value="front">Front</option>
+      <option value="back">Back</option>
+    </select>
+  </label>
+
+  <label>Legs:
+    <select id="legFilter">
+      <option value="">All</option>
+      <option value="feet">Feet</option>
+      <option value="none">None</option>
+    </select>
+  </label>
+</div>
+
+<!-- Responsive Style -->
+<style>
+  .filter-section {
+    text-align: center;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .filter-section label {
+    display: flex;
+    flex-direction: column;
+    margin: 5px;
+    min-width: 120px;
+  }
+
+  .filter-section select {
+    padding: 5px;
+    font-size: 16px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+  }
+
+  @media screen and (max-width: 600px) {
+    .filter-section {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .filter-section label {
+      width: 100%;
+      max-width: 300px;
+    }
+  }
+</style>
+
+  </style>
+</head>
+<body>
+
+  <a href="index.html"><i class="fas fa-arrow-left"></i> Back to Home</a>
+<h1>Mehendi Gallery</h1>
+
+<!-- Filter Section -->
+<div class="filter-section">
+  <label>Occasion:
+    <select id="occasionFilter">
+      <option value="">All</option>
+      <option value="wedding">Wedding</option>
+      <option value="festival">Festival</option>
+      <option value="party">Party</option>
+    </select>
+  </label>
+
+  <label>Hand Type:
+    <select id="handFilter">
+      <option value="">All</option>
+      <option value="front">Front</option>
+      <option value="back">Back</option>
+    </select>
+  </label>
+
+  <label>Legs:
+    <select id="legFilter">
+      <option value="">All</option>
+      <option value="feet">Feet</option>
+      <option value="none">None</option>
+    </select>
+  </label>
+</div>
+
+<!-- Responsive Style -->
+
+  <button onclick="resetFilters()" style="margin-left: 15px; padding: 5px 10px; background: #ffc107; border: none; border-radius: 5px; cursor: pointer;">
+    Reset Filters
+  </button>
+</div>
+
+<!-- Gallery Section -->
+<div class="gallery" id="galleryContainer">
+  <div class="photo" data-occasion="wedding" data-hand="front" data-leg="none">
+    <img src="images/HF1.jpg" alt="Mehendi Design 1">
+  </div>
+  <div class="photo" data-occasion="wedding" data-hand="front" data-leg="none">
+    <img src="images/HF2.jpg" alt="Mehendi Design 2">
+  </div>
+  <div class="photo" data-occasion="wedding" data-hand="front" data-leg="none">
+    <img src="images/HF3.jpg" alt="Mehendi Design 3">
+  </div>
+  <div class="photo" data-occasion="wedding" data-hand="front" data-leg="none">
+    <img src="images/HF4.jpg" alt="Mehendi Design 4">
+  </div>
+  <div class="photo" data-occasion="wedding" data-hand="front" data-leg="none">
+    <img src="images/HF5.jpg" alt="Mehendi Design 5">
+  </div>
+  <div class="photo" data-occasion="wedding" data-hand="front" data-leg="none">
+    <img src="images/HF6.jpg" alt="Mehendi Design 6">
+  </div>
+  <div class="photo" data-occasion="wedding" data-hand="front" data-leg="none">
+    <img src="images/HF7.jpg" alt="Mehendi Design 7">
+  </div>
+  <div class="photo" data-occasion="wedding" data-hand="front" data-leg="none">
+    <img src="images/HF8.jpg" alt="Mehendi Design 8">
+  </div>
+  <div class="photo" data-occasion="wedding" data-hand="front" data-leg="none">
+    <img src="images/HF9.jpg" alt="Mehendi Design 9">
+  </div>
+  <div class="photo" data-occasion="wedding" data-hand="front" data-leg="none">
+    <img src="images/HF10.jpg" alt="Mehendi Design 10">
+  </div>
+  <div class="photo" data-occasion="wedding" data-hand="front" data-leg="none">
+    <img src="images/HF11.jpg" alt="Mehendi Design 11">
+  </div>
+  <div class="photo" data-occasion="wedding" data-hand="front" data-leg="none">
+    <img src="images/HF12.jpg" alt="Mehendi Design 12">
+  </div>
+  <div class="photo" data-occasion="wedding" data-hand="front" data-leg="none">
+    <img src="images/HF13.jpg" alt="Mehendi Design 13">
+  </div>
+  <div class="photo" data-occasion="wedding" data-hand="front" data-leg="none">
+    <img src="images/HF14.jpg" alt="Mehendi Design 14">
+  </div>
+  <div class="photo" data-occasion="wedding" data-hand="front" data-leg="none">
+    <img src="images/SH1.jpg" alt="Mehendi Design 1">
+  </div>
+   <div class="photo" data-occasion="wedding" data-hand="front" data-leg="none">
+    <img src="images/SH2.jpg" alt="Mehendi Design 2">
+  </div>
+   <div class="photo" data-occasion="wedding" data-hand="front" data-leg="none">
+    <img src="images/SH3.jpg" alt="Mehendi Design 3">
+  </div>
+   <div class="photo" data-occasion="wedding" data-hand="front" data-leg="none">
+    <img src="images/SH4.jpg" alt="Mehendi Design 4">
+  </div>
+   <div class="photo" data-occasion="wedding" data-hand="front" data-leg="none">
+    <img src="images/SH5.jpg" alt="Mehendi Design 5">
+  </div>
+   <div class="photo" data-occasion="wedding" data-hand="front" data-leg="none">
+    <img src="images/SH6.jpg" alt="Mehendi Design 6">
+  </div>
+  <div class="photo" data-occasion="wedding" data-hand="back" data-leg="none">
+    <img src="images/HB1.jpg" alt="Mehendi Design 1">
+  </div>
+   <div class="photo" data-occasion=weddingl" data-hand="back" data-leg="none">
+    <img src="images/HB2.jpg" alt="Mehendi Design 2">
+  </div>
+   <div class="photo" data-occasion="wedding" data-hand="back" data-leg="none">
+    <img src="images/HB3.jpg" alt="Mehendi Design 3">
+  </div>
+   <div class="photo" data-occasion="wedding" data-hand="back" data-leg="none">
+    <img src="images/HB4.jpg" alt="Mehendi Design 4">
+  </div>
+   <div class="photo" data-occasion="wedding" data-hand="back" data-leg="none">
+    <img src="images/HB5.jpg" alt="Mehendi Design 5">
+  </div>
+   <div class="photo" data-occasion="wedding" data-hand="back" data-leg="none">
+    <img src="images/HB6.jpg" alt="Mehendi Design 6">
+  </div>
+   <div class="photo" data-occasion="wedding" data-hand="back" data-leg="none">
+    <img src="images/HB7.jpg" alt="Mehendi Design 7">
+  </div>
+   <div class="photo" data-occasion="wedding" data-hand="back" data-leg="none">
+    <img src="images/HB8.jpg" alt="Mehendi Design 8">
+  </div>
+   <div class="photo" data-occasion="wedding" data-hand="back" data-leg="none">
+    <img src="images/HB9.jpg" alt="Mehendi Design 9">
+  </div>
+   <div class="photo" data-occasion="wedding" data-hand="back" data-leg="none">
+    <img src="images/HB10.jpg" alt="Mehendi Design 10">
+  </div>
+   <div class="photo" data-occasion="wedding" data-hand="back" data-leg="none">
+    <img src="images/HB11.jpg" alt="Mehendi Design 11">
+  </div>
+   <div class="photo" data-occasion="wedding" data-hand="back" data-leg="none">
+    <img src="images/HB12.jpg" alt="Mehendi Design 12">
+  </div>
+   <div class="photo" data-occasion="wedding" data-hand="back" data-leg="none">
+    <img src="images/HB13.jpg" alt="Mehendi Design 13">
+  </div>
+   <div class="photo" data-occasion="wedding" data-hand="back" data-leg="none">
+    <img src="images/HB14.jpg" alt="Mehendi Design 14">
+  </div>
+   <div class="photo" data-occasion="wedding" data-hand="back" data-leg="none">
+    <img src="images/HB15.jpg" alt="Mehendi Design 15">
+  </div>
+   <div class="photo" data-occasion="wedding" data-hand="back" data-leg="none">
+    <img src="images/HB16.jpg" alt="Mehendi Design 16">
+  </div>
+   <div class="photo" data-occasion="wedding" data-hand="back" data-leg="none">
+    <img src="images/HB17.jpg" alt="Mehendi Design 17">
+  </div>
+   <div class="photo" data-occasion="wedding" data-hand="back" data-leg="none">
+    <img src="images/HB18.jpg" alt="Mehendi Design 18">
+  </div>
+   <div class="photo" data-occasion="wedding" data-hand="back" data-leg="none">
+    <img src="images/HB19.jpg" alt="Mehendi Design 19">
+  </div>
+   <div class="photo" data-occasion="wedding" data-hand="back" data-leg="none">
+    <img src="images/HB20.jpg" alt="Mehendi Design 20">
+  </div>
+   <div class="photo" data-occasion="wedding" data-hand="back" data-leg="feet">
+    <img src="images/L1.jpg" alt="Mehendi Design 1">
+  </div>
+  <div class="photo" data-occasion="wedding" data-hand="back" data-leg="feet">
+    <img src="images/L2.jpg" alt="Mehendi Design 2">
+  </div>
+  <div class="photo" data-occasion="wedding" data-hand="back" data-leg="feet">
+    <img src="images/L3.jpg" alt="Mehendi Design 3">
+  </div>
+  <div class="photo" data-occasion="wedding" data-hand="back" data-leg="feet">
+    <img src="images/L4.jpg" alt="Mehendi Design 4">
+  </div>
+  <div class="photo" data-occasion="wedding" data-hand="back" data-leg="feet">
+    <img src="images/L5.jpg" alt="Mehendi Design 5">
+  </div>
+  <div class="photo" data-occasion="wedding" data-hand="back" data-leg="feet">
+    <img src="images/L6.jpg" alt="Mehendi Design 6">
+  </div>
+  <div class="photo" data-occasion="wedding" data-hand="back" data-leg="feet">
+    <img src="images/L7.jpg" alt="Mehendi Design 7">
+  </div>
+  <div class="photo" data-occasion="wedding" data-hand="back" data-leg="feet">
+    <img src="images/L8.jpg" alt="Mehendi Design 8">
+  </div>
+  <div class="photo" data-occasion="wedding" data-hand="back" data-leg="feet">
+    <img src="images/L9.jpg" alt="Mehendi Design 9">
+  </div>
+  <div class="photo" data-occasion="wedding" data-hand="back" data-leg="feet">
+    <img src="images/L10.jpg" alt="Mehendi Design 10">
+  </div>
+  <div class="photo" data-occasion="wedding" data-hand="back" data-leg="feet">
+    <img src="images/L11.jpg" alt="Mehendi Design 11">
+  </div>
+  <div class="photo" data-occasion="wedding"  data-hand="back" data-leg="feet">
+    <img src="images/L12.jpg" alt="Mehendi Design 12">
+  </div>
+
+  <!-- <div class="photo" data-occasion="party" data-hand="front" data-leg="none">
+    <img src="https://via.placeholder.com/250x300?text=Design+3" alt="Mehendi Design 3">
+  </div>
+ 
+  <div class="photo" data-occasion="festival" data-hand="front" data-leg="none">
+    <img src="https://via.placeholder.com/250x300?text=Design+5" alt="Mehendi Design 5">
+  </div>
+</div> -->
+
+<script>
+  const occasionFilter = document.getElementById('occasionFilter');
+  const handFilter = document.getElementById('handFilter');
+  const legFilter = document.getElementById('legFilter');
+  const galleryItems = document.querySelectorAll('.photo');
+
+  function filterGallery() {
+    const occ = occasionFilter.value;
+    const hand = handFilter.value;
+    const leg = legFilter.value;
+
+    galleryItems.forEach(item => {
+      const matchOcc = !occ || item.dataset.occasion === occ;
+      const matchHand = !hand || item.dataset.hand === hand;
+      const matchLeg = !leg || item.dataset.leg === leg;
+
+      item.style.display = (matchOcc && matchHand && matchLeg) ? 'block' : 'none';
+    });
+  }
+
+  function resetFilters() {
+    occasionFilter.value = '';
+    handFilter.value = '';
+    legFilter.value = '';
+    filterGallery();
+  }
+
+  occasionFilter.addEventListener('change', filterGallery);
+  handFilter.addEventListener('change', filterGallery);
+  legFilter.addEventListener('change', filterGallery);
+</script>
+<!-- Fullscreen Modal -->
+<div id="fullscreenModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); justify-content:center; align-items:center; z-index:9999;">
+  <span onclick="closeFullscreen()" style="position:absolute; top:20px; right:30px; font-size:40px; color:#fff; cursor:pointer;">&times;</span>
+  <img id="fullscreenImage" src="" alt="Full View" style="max-width:90%; max-height:90%; border-radius:12px;">
+</div>
+
+<script>
+  const modal = document.getElementById("fullscreenModal");
+  const fullscreenImage = document.getElementById("fullscreenImage");
+
+  document.querySelectorAll(".photo img").forEach(img => {
+    img.addEventListener("click", () => {
+      fullscreenImage.src = img.src;
+      modal.style.display = "flex";
+    });
+  });
+
+  function closeFullscreen() {
+    modal.style.display = "none";
+  }
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>My Cart - Mehendi by Mahima</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #fff8f0;
+            color: #333;
+            padding: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+
+        input,
+        select {
+            padding: 10px;
+            margin: 5px 0;
+            width: 100%;
+        }
+
+        button {
+            background: #7b2d26;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <a href="product.html"
+        style="display: inline-block; margin: 20px; text-decoration: none; color: white; background: #7b2d26; padding: 10px 20px; border-radius: 5px;">
+        ← Back to Products
+    </a>
+
+    <h1>🛒 Your Cart</h1>
+
+    <table id="cartTable">
+        <tr>
+            <th>Product</th>
+            <th>Qty</th>
+            <th>Price</th>
+            <th>Subtotal</th>
+        </tr>
+    </table>
+
+    <h3>Total: ₹<span id="totalAmount">0</span></h3>
+
+    <h2>Delivery Details</h2>
+    <input id="address" placeholder="Enter your Address" />
+    <input id="phone" placeholder="Enter your Phone Number" />
+
+    <h3>Payment Method:</h3>
+    <select id="paymentMethod">
+        <option value="razorpay">UPI / Card / Wallet (Razorpay)</option>
+        <option value="cod">Cash on Delivery (COD)</option>
+    </select>
+
+    <button onclick="processPayment()">Place Order</button>
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+    <script>
+        // Load Cart from LocalStorage
+        let cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+
+        function renderCart() {
+            let table = document.getElementById('cartTable');
+            let total = 0;
+            table.innerHTML = '<tr><th>Product</th><th>Qty</th><th>Price</th><th>Subtotal</th></tr>';
+
+            cartItems.forEach(item => {
+                const subtotal = item.quantity * item.price;
+                total += subtotal;
+                table.innerHTML += `<tr>
+            <td>${item.name}</td>
+            <td>${item.quantity}</td>
+            <td>₹${item.price}</td>
+            <td>₹${subtotal}</td>
+        </tr>`;
+            });
+
+            document.getElementById('totalAmount').innerText = total;
+        }
+
+        function processPayment() {
+            const method = document.getElementById('paymentMethod').value;
+            if (method === 'razorpay') {
+                payWithRazorpay();
+            } else {
+                placeOrder('COD');
+            }
+        }
+
+        function payWithRazorpay() {
+            const totalAmount = cartItems.reduce((sum, item) => sum + (item.quantity * item.price), 0);
+
+            fetch('/api/payment', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ amount: totalAmount })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    const options = {
+                        "key": "YOUR_KEY_ID", // 🔴 Replace with your Razorpay Key ID
+                        "amount": data.order.amount,
+                        "currency": "INR",
+                        "name": "Mehendi by Mahima",
+                        "description": "Order Payment",
+                        "order_id": data.order.id,
+                        "handler": function (response) {
+                            placeOrder('Paid', data.order.id);
+                        }
+                    };
+                    const rzp = new Razorpay(options);
+                    rzp.open();
+                })
+                .catch(err => alert("Payment API Error: " + err.message));
+        }
+
+        function placeOrder(status, razorpayOrderId = null) {
+            const customerId = localStorage.getItem('customerId');
+            if (!customerId) {
+                alert('Please login first!');
+                window.location.href = 'signin.html';
+                return;
+            }
+
+            const address = document.getElementById('address').value;
+            const phone = document.getElementById('phone').value;
+
+            if (!address || !phone) {
+                alert('Please fill in address and phone number');
+                return;
+            }
+
+            const orderItems = cartItems.map(item => ({
+                productId: item.productId,
+                quantity: item.quantity,
+                price: item.price
+            }));
+
+            const totalAmount = cartItems.reduce((sum, item) => sum + (item.quantity * item.price), 0);
+
+            fetch('/api/order', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    customerId,
+                    items: orderItems,
+                    totalAmount,
+                    address,
+                    phone,
+                    paymentStatus: status,
+                    razorpayOrderId: razorpayOrderId
+                })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    alert(data.message);
+                    localStorage.removeItem('cart');
+                    window.location.href = 'success.html';
+                })
+                .catch(err => alert("Order Error: " + err.message));
+        }
+
+        renderCart();
+    </script>
+    <!-- Somewhere in your HTML body -->
+    <div id="orderSection">Loading...</div>
+
+    <!-- Paste the script below just before </body> -->
+    <script>
+        const customerId = localStorage.getItem('customerId');
+        const orderContainer = document.getElementById('orderSection');
+
+        if (!customerId) {
+            orderContainer.innerHTML = '<p>Please login to view your orders.</p>';
+        } else {
+            fetch(`/api/customer/orders/${customerId}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (!Array.isArray(data) || data.length === 0) {
+                        orderContainer.innerHTML = '<p>No orders found.</p>';
+                        return;
+                    }
+
+                    orderContainer.innerHTML = ''; // clear loading...
+
+                    data.forEach(order => {
+                        const items = order.items.map(i =>
+                            `<li>${i.productId?.name || i.name} x ${i.quantity}</li>`
+                        ).join('');
+
+                        orderContainer.innerHTML += `
+            <div class="order-card" style="border:1px solid #ccc; margin-bottom:10px; padding:10px; border-radius:6px;">
+              <p><strong>Status:</strong> ${order.status}</p>
+              <p><strong>Total:</strong> ₹${order.totalAmount}</p>
+              <p><strong>Address:</strong> ${order.address}</p>
+              <ul>${items}</ul>
+            </div>
+          `;
+                    });
+                })
+                .catch(err => {
+                    orderContainer.innerHTML = '<p>Error loading orders.</p>';
+                    console.error(err);
+                });
+        }
+    </script>
+</body>
+
+</html>
+
+</body>
+
+</html>

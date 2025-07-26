@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Forgot Password - Admin</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #fef6f2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    .forgot-box {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      text-align: center;
+      max-width: 400px;
+      width: 100%;
+    }
+    h2 {
+      color: #7c2c21;
+    }
+    input {
+      width: 90%;
+      padding: 10px;
+      margin: 15px 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+    button {
+      background-color: #7c2c21;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #5e1f16;
+    }
+    .back-link {
+      margin-top: 15px;
+      display: block;
+      color: #7c2c21;
+      text-decoration: none;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="forgot-box">
+    <h2>Forgot Password</h2>
+    <input type="email" id="adminEmail" placeholder="Enter your admin email" required>
+    <button id="sendOtpBtn">Send OTP</button>
+    <a class="back-link" href="admin.html">← Back to Login</a>
+  </div>
+
+  <script>
+    document.getElementById('sendOtpBtn').addEventListener('click', async function () {
+      const email = document.getElementById('adminEmail').value;
+      if (!email) {
+        alert("Please enter your email.");
+        return;
+      }
+
+      try {
+        const res = await fetch('/api/admin/send-otp', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email }),
+        });
+
+        const data = await res.json();
+        alert(data.message);
+
+        if (data.success) {
+          window.location.href = "admin-verify-otp.html"; // Redirect to OTP page
+        }
+      } catch (err) {
+        alert("Failed to send OTP. Server error.");
+      }
+    });
+  </script>
+</body>
+</html>

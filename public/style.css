@@ -1,0 +1,43 @@
+nav a {
+  color: white;
+  margin: 0 15px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+nav a:hover {
+  transform: scale(1.1);
+  color: #ccc;
+}
+
+.product img {
+  transition: transform 0.3s ease;
+}
+
+.product img:hover {
+  transform: scale(1.05);
+}
+
+button {
+  background: #000000;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+button:hover {
+  background: #444444;
+  transform: scale(1.05);
+}
+
+h1, h2, h3, p {
+  transition: transform 0.3s ease;
+}
+
+h1:hover, h2:hover, h3:hover, p:hover {
+  transform: scale(1.02);
+}
