@@ -40,6 +40,24 @@
             margin-top: 20px;
             cursor: pointer;
         }
+
+        .remove-btn {
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+
+        .remove-btn:hover {
+            background-color: #e60000;
+        }
+
+        .cart-item {
+            margin-bottom: 15px;
+        }
     </style>
 </head>
 
@@ -60,6 +78,7 @@
             <th>Subtotal</th>
         </tr>
     </table>
+    <div id="cartItems"></div>
 
     <h3>Total: ₹<span id="totalAmount">0</span></h3>
 
@@ -225,6 +244,38 @@
                     console.error(err);
                 });
         }
+    </script>
+    <script>
+        function loadCart() {
+            const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+            const container = document.getElementById("cartItems");
+
+            if (cartItems.length === 0) {
+                container.innerHTML = "<p>Your cart is empty.</p>";
+                return;
+            }
+
+            container.innerHTML = ""; // Clear previous
+
+            cartItems.forEach((item, index) => {
+                container.innerHTML += `
+      <div class="cart-item">
+        <p><b>${item.name}</b> - ₹${item.price} × ${item.quantity}</p>
+        <button class="remove-btn" onclick="removeFromCart(${index})">🗑 Remove</button>
+        <hr>
+      </div>
+    `;
+            });
+        }
+
+        function removeFromCart(index) {
+            const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+            cartItems.splice(index, 1); // Remove the selected item
+            localStorage.setItem("cart", JSON.stringify(cartItems));
+            loadCart(); // Reload the cart
+        }
+
+        loadCart(); // Initial call
     </script>
 </body>
 
