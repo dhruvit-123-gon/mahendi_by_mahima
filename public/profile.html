@@ -240,12 +240,29 @@
             color: #555;
             cursor: pointer;
         }
+
+        .back-button {
+            display: inline-block;
+            margin: 20px;
+            padding: 10px 20px;
+            background-color: #7b2d26;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: #a34339;
+        }
     </style>
 </head>
 
 <body>
 
     <div class="container">
+
 
         <label for="uploadPic">
             <img id="profilePic" src="https://via.placeholder.com/100x100.png?text=User" class="avatar"
@@ -256,6 +273,9 @@
 
         <h2 id="userName">Your Name</h2>
         <p id="userEmail">your@email.com</p>
+        <!-- BACK BUTTON -->
+        <a href="index.html" class="back-button">⬅ Back to Home</a>
+
 
         <!-- LOGIN BUTTON (TOP RIGHT) -->
         <a id="loginIcon" onclick="openLoginModal()"
