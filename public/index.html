@@ -304,6 +304,58 @@
       padding: 2px 6px;
       border-radius: 50%;
     }
+
+    .product-dept {
+      display: flex;
+      justify-content: center;
+      margin: 50px 0;
+    }
+
+    .product-card {
+      position: relative;
+      width: 90%;
+      max-width: 1000px;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .product-card img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .product-content {
+      position: absolute;
+      bottom: 20px;
+      left: 30px;
+      color: white;
+    }
+
+    .product-content h2 {
+      font-size: 36px;
+      margin: 0;
+    }
+
+    .product-content p {
+      font-size: 18px;
+      margin: 5px 0 15px;
+    }
+
+    .shop-now-btn {
+      background-color: #8e44ad;
+      color: white;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: 25px;
+      font-weight: bold;
+      transition: background 0.3s ease;
+    }
+
+    .shop-now-btn:hover {
+      background-color: #732d91;
+    }
   </style>
 </head>
 
@@ -338,7 +390,7 @@
     </nav>
   </header>
 
-  
+
 
   <script>
     function goToProfile() {
@@ -366,7 +418,7 @@
   <!-- Slot Availability Notification -->
   <div id="slotCounter"
     style="background-color: #fff3cd; color: #856404; text-align: center; padding: 15px; font-weight: bold; border-bottom: 2px solid #ffeeba;">
-    <i class="fas fa-calendar-check"></i> Only <span id="slotsLeft">3</span> bridal slots left in June!
+    <i class="fas fa-calendar-check"></i> Only <span id="slotsLeft">3</span> bridal slots left in August  !
   </div>
 
 
@@ -410,6 +462,19 @@
     <div class="scroll-content">💫 Traditional Touch • 🎉 Celebration Ready • 🌺 Custom Designs • 🔥 Trending Looks • 🌻
       Elegant Swirls •</div>
   </div>
+
+  <!-- Product Department Section -->
+  <section class="product-dept">
+    <div class="product-card">
+      <img src="images/powder.jpg" alt="Product Department">
+      <div class="product-content">
+        <h2>Our Products</h2>
+        <p>Explore natural mehendi powder</p>
+        <a href="product.html" class="shop-now-btn">Shop Now</a>
+      </div>
+    </div>
+  </section>
+
 
 
   <section id="packages" style="padding: 60px 20px; background: #000000; color: #ffffff; text-align: center;">
@@ -596,7 +661,7 @@
     const currentMonth = today.getMonth();
     const currentYear = today.getFullYear();
 
-    const availableDates = [5, 8, 12, 18, 22, 25]; // Customize this as needed
+    const availableDates = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]; // Customize this as needed
     let selectedDay = null;
 
     function renderCalendar(month, year) {
